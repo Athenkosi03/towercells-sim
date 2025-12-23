@@ -4,15 +4,24 @@ import java.util.ArrayList;
 
 public class CalculateDistances{
 
+   /**
+    * Computes the nearest neighbouring tower for each TowerCell in the collection
+    * using pairwise Euclidean distance comparison.
+    * 
+    * Time Complexity: O(n^2), where n is the number of towers.
+    * Assumes latitude and longitude are represented in a consistent coordinate system.
+    */
    public void computeMinDistances(ArrayList<TowerCell> towersArr){
-      double changeXs = 0;
-      double changeYs = 0;
-      double distance = 0;
+      double changeXs = 0;       //Delta in latitude between two towers
+      double changeYs = 0;       //Delta in longitude between two towers
+      double distance = 0;       //Euclidean distance between two towers
 
+      //Iterates over each tower as the reference point
       for(TowerCell towerA: towersArr){
          double minDist = Double.MAX_VALUE;  //positive infinity
-         String closest = "";
+         String closest = "";                //ID of the closest neighbouring tower
 
+         //Compare towerA against all other tower
          for(TowerCell towerB: towersArr){
             if(towerA.equals(towerB)) continue;
 
