@@ -55,10 +55,12 @@ public class TowerCell{
         this.northing = north;
     }
 
+    // Returns assigned tower cells color
     public int getColouring(){
         return colour;
     }
 
+    // Assigns a color to the vertex
     public void setColouring(int kValue){
         this.colour = kValue;
     }
@@ -71,18 +73,27 @@ public class TowerCell{
         this.towerCellID = twID;
     }
 
-    public ArrayList<String> getNeighbours(){
+    // Returns adjacency list
+    public ArrayList<TowerCell> getNeighbours(){
         return neighbours;
     }
-    // ----------- Methods ------------------//
-    public void addNeighbours(String twID){
-        neighbours.add(twID);  //all the neighbouring tower should have a different graph colouring
+
+
+    // ----------- Graph Operations ------------------//
+
+    // Adds an undirected edge(must be reciprocated externally if graph is undirected)
+    public void addNeighbours(TowerCell twCell){
+        neighbours.add(twCell);  //all the neighbouring tower should have a different graph colouring
     }
 
+
+    // Checks adjacency in O(degree) time
     public boolean inNeighbours(TowerCell towerQuery){
-        return neighbours.contains(towerQuery.getTowerID());
+        return neighbours.contains(towerQuery);
     }
 
+    // Equality is based on spatial coordinates.
+    // This ensures structural graph uniqueness independent of object reference.
     @Override
     public boolean equals(Object obj){
         if(this == obj){
@@ -97,6 +108,7 @@ public class TowerCell{
         return (this.easting == other.easting) && (this.northing == other.northing);
     }
 
+    // Hash consistency with equals - required for correct behaviour in hash-based collections.
     @Override
     public int hashCode(){
         return Objects.hash(easting, northing);
