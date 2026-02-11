@@ -2,13 +2,13 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 
-// Implements the Greedy Graph Coloring algorithm.
-// Time Complexity: O(V + E) assuming bounded color usage.
-// The number of colors used depends on vertex ordering.
-
 public class GraphColoring{
-
-
+    
+    /**  
+     * Implements the Greedy Graph Coloring algorithm.
+     * Time Complexity: O(V + E) assuming bounded color usage.
+     * The number of colors used depends on vertex ordering.
+    */
     public GraphColoring(ArrayList<TowerCell> towersArr){
          colorGraph(towersArr);
     }
