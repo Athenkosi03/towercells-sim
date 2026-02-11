@@ -34,20 +34,18 @@ public class CalculateDistances{
 
             assert(distance >= 0);  //distance must be a positive value
 
-            //System.out.println("Distance between " + towerA.getTowerID()  + " and "+ towerB.getTowerID() +  " = " + distance);
             if(distance < minDist){
                towerClosest = null;   //make sure that a new closest tower is placed in
-               //System.out.println("Found a neighbour:)");
-               //System.out.println("Distance between " + towerA.getTowerID()  + " and "+ towerB.getTowerID() +  " = " + distance);
                minDist = distance;
-               //System.out.println("minDist now equals: " + minDist);
                towerClosest = towerB;
-               //System.out.println("TowerCloset is: " + towerB.getTowerID());
             }
          }
-         towerA.addNeighbours(towerClosest.getTowerID());   //each tower has an arrayList containing 
-         towerClosest.addNeighbours(towerA.getTowerID());
-         //TowerCell towerClose = towerA.getNeighbours().get(0);
+
+         if(towerClosest != null){
+            towerA.addNeighbours(towerClosest);   //each tower has an arrayList containing 
+            towerClosest.addNeighbours(towerA);
+         }
+
       }
     
    }
