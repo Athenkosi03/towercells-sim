@@ -17,14 +17,52 @@ public class CalculateDistances{
       double distance = 0;       //Euclidean distance between two towers
 
       //Iterates over each tower as the reference point
-      for(TowerCell towerA: towersArr){
-         double minDist = Double.MAX_VALUE;  //positive infinity
-         String closest = "";                //ID of the closest neighbouring tower
+     for(int i = 0; i < towersArr.size() - 1; i++){
+         double minDist = Double.MAX_VALUE;      //positive infinity
 
-         //Compare towerA against all other tower
-         for(TowerCell towerB: towersArr){
-            if(towerA.equals(towerB)) continue;
+         TowerCell towerA = towersArr.get(i);
+         TowerCell towerClosest = null;         //Closest neighbouring tower
 
+          //Compare towerA against all other tower
+         for(int j = i + 1; j < towersArr.size() ; j++){
+            TowerCell towerB = towersArr.get(j);
+            if(towerA.equals(towerB)) continue;//since the distance is obviously 0
+            
+            changeXs = towerA.getLatitude() - towerB.getLatitude();
+            changeYs = towerA.getLongitude() - towerB.getLongitude();
+            distance = Math.sqrt((changeXs * changeXs) + (changeYs * changeYs));
+
+            assert(distance >= 0);  //distance must be a positive value
+
+            //System.out.println("Distance between " + towerA.getTowerID()  + " and "+ towerB.getTowerID() +  " = " + distance);
+            if(distance < minDist){
+               towerClosest = null;   //make sure that a new closest tower is placed in
+               //System.out.println("Found a neighbour:)");
+               //System.out.println("Distance between " + towerA.getTowerID()  + " and "+ towerB.getTowerID() +  " = " + distance);
+               minDist = distance;
+               //System.out.println("minDist now equals: " + minDist);
+               towerClosest = towerB;
+               //System.out.println("TowerCloset is: " + towerB.getTowerID());
+            }
+         }
+         towerA.addNeighbours(towerClosest.getTowerID());   //each tower has an arrayList containing 
+         towerClosest.addNeighbours(towerA.getTowerID());
+         //TowerCell towerClose = towerA.getNeighbours().get(0);
+      }
+    
+   }
+}
+
+     /*  for(int i = 0; i < towerArr.size(); i++){
+         double minDist = Double.MAX_VALUE;      //positive infinity
+         TowerCell towerA = towerArr.get(i);
+         TowerCell towerClosest = null;         //Closest neighbouring tower
+
+          //Compare towerA against all other tower
+         for(int j = i; j < towerArr.size() - 1; j++){
+            TowerCell towerB = towerArr.get(j);
+           if(towerA.equals(towerB)) continue;//since the distance is obviously 0
+            
             changeXs = towerA.getLatitude() - towerB.getLatitude();
             changeYs = towerA.getLongitude() - towerB.getLongitude();
             distance = Math.sqrt((changeXs * changeXs) + (changeYs * changeYs));
@@ -32,41 +70,11 @@ public class CalculateDistances{
             assert(distance >= 0);  //distance must be a positive value
 
             if(distance < minDist){
+               towerClosest = null;   //make sure that a new closest tower is placed in
                minDist = distance;
-               closest = towerB.getTowerID();
+               towerClosest = towerB;
             }
 
-            
-         }
-         towerA.addNeighbours(closest);   //each tower has an arrayList containing 
-      }
-    
-   }
-
-   public void fillNeighArr(ArrayList<TowerCell> towersArr){
-      for(TowerCell tower: towersArr){
-         for(TowerCell pointer: towersArr){
-            if(pointer == tower) continue;
-
-            if(pointer.inNeighbours(tower) && !tower.inNeighbours(pointer)){
-               tower.addNeighbours(pointer.getTowerID());
-            }
-         }
-      }
-   }
-}
-    /* for(int i = 0; i < n; i++){
-         for(int j = 0; j < n; j++){
-            if(i == j) continue; //since the distance is obviously 0
-            
-            double changeXs = arr[i][0] - arr[j][0];
-            double changeYs = arr[i][1] - arr[j][1];
-            double distance = Math.sqrt((changeXs * changeXs) + (changeYs * changeYs));
-            
-            if(distance < minDist){
-               minDist = distance;
-               closest = j;
-            }
          }
          track[i] = closest;
       }
