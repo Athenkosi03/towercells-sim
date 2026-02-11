@@ -17,14 +17,14 @@ public class CalculateDistances{
       double distance = 0;       //Euclidean distance between two towers
 
       //Iterates over each tower as the reference point
-     for(int i = 0; i < towersArr.size() - 1; i++){
+     for(int i = 0; i < towersArr.size(); i++){
          double minDist = Double.MAX_VALUE;      //positive infinity
 
          TowerCell towerA = towersArr.get(i);
          TowerCell towerClosest = null;         //Closest neighbouring tower
 
           //Compare towerA against all other tower
-         for(int j = i + 1; j < towersArr.size() ; j++){
+         for(int j = 0; j < towersArr.size(); j++){
             TowerCell towerB = towersArr.get(j);
             if(towerA.equals(towerB)) continue;//since the distance is obviously 0
             
