@@ -1,17 +1,25 @@
-//represent each node of the graph, ie the TowerCell are the nodes of the graph
+
+// Represents a vertex in the interference graph
+// Each TowerCell models a node whose edges represent adjacency (signal overlap)
+// constraints in the graph coloring problem.
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class TowerCell{
-
+    // Unique logical identifier for the tower
     private String towerCellID;
+    
+    // Geographical metadata(notused directly in coloring but useful for spatial graph construction)
     private double longitude;
     private double latitude;
     private int easting;
     private int northing;
 
-    private ArrayList<String> neighbours;
-    private int colour = 0;
+    // Adjacency list representation of the graph(space-efficient for sparse graphs)
+    private ArrayList<TowerCell> neighbours;
+
+    // Assigned color. -1 indicates uncolored.
+    private int colour = -1;
 
     public TowerCell(String towerID, int east,int north, double longitude, double latitude){
         this.towerCellID = towerID;
