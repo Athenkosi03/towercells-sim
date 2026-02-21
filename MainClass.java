@@ -1,46 +1,121 @@
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
 
 public class MainClass{
+    /**
+     * Entry point for the Cell Tower Graph Simulation.
+     *
+     * Responsibilities:
+     * 1. Acquire user input for dataset location.
+     * 2. Validate and load tower data from CSV.
+     * 3. Construct spatial proximity graph.
+     * 4. Apply graph coloring to model frequency allocation constraints.
+     *
+     * This class acts as a high-level orchestration layer,
+     * delegating computation and data parsing responsibilities
+     * to specialized classes (separation of concerns).
+     */
+
+    // Global collection of graph vertices (adjacency handled internally)
     static ArrayList<TowerCell> towersArr = new ArrayList<>();
 
+    static String nameOfFolder;         // User-provided dataset folder
+    static String folderDirectory;      // Absolute path to dataset directory
+
+    static CellTowerLoader loader;      // Responsible for CSV parsing and object instantiation
+
     public static void main(String[] args){
-        //selecting and opening the folder with the data
-        //Scanner scanner = new Scanner(System.in);
 
-        //selecting the csv file with the data
-        //new MyFrame();
+        Scanner scan =  new Scanner(System.in);
 
-        //loading the data 
+        // Acquire data source
+        getUserInput(scan);
+        // Validate directory and load tower data
+        validateDirectory();
 
-        //starting the program
-        //for all the lines of the csv file turn it into a TowerCell objects
-        /*while buffered readers -> new TowerCell
-                towersArr.add(towerObj);
-        */
-       TowerCell towerA = new TowerCell("A", 536660, 183800, -0.03098, 51.53657);
-       TowerCell towerB = new TowerCell("B", 537032, 184006, -0.02554, 51.53833);
-       TowerCell towerC = new TowerCell("C", 537109, 183884, -0.02448, 51.53721);
-       TowerCell towerD = new TowerCell("D", 537110, 184695, -0.02415, 51.5445);
-       TowerCell towerE = new TowerCell("E", 537206, 184685, -0.02277, 51.54439);
+        // Construct spatial adjacency relationship
+        CalculateDistances calcDist = new CalculateDistances();
+        calcDist.computeMinDistances(towersArr);
 
-       towersArr.add(towerA);
-       towersArr.add(towerB);
-       towersArr.add(towerC);
-       towersArr.add(towerD);
-       towersArr.add(towerE);
-
-       CalculateDistances calcDist = new CalculateDistances();
-       calcDist.computeMinDistances(towersArr);
-       calcDist.fillNeighArr(towersArr);
-       for(TowerCell tw: towersArr){
-            System.out.println(tw.getNeighbours());
-            //System.out.println("/////-------------*------------///////");
-       }
-       //System.out.println();
-
-       
+        // Verification of adjacency list
+        for(TowerCell tw: towersArr){
+            System.out.println(tw.getTowerID() + "--> " + tw.displayNeighbours());
+        }
+        
+        // Apply greedy graph coloring
+        GraphColoring coloring = new GraphColoring(towersArr);
     }
 
 
+    /**
+     * Captures folder name from user input and constructs
+     * absolute directory path.
+     *
+     * Defensive Consideration:
+     * Currently assumes a Windows-based file system.
+     * For production-level portability, Paths/Files API should be used.
+     */
+    private static void getUserInput(Scanner scan){
+        try{
+            System.out.println("Enter the name of the folder to be used for this simulation:");
+            nameOfFolder = scan.nextLine().trim();
+
+            if(nameOfFolder.isEmpty()){
+                System.out.println("No folder name entered....");
+            }
+
+            folderDirectory = "C:/Users/athen/OneDrive - University of Cape Town/Athenkosi's Personals/Side Projects/CellTowers/" + nameOfFolder;
+        }
+
+        catch(IllegalArgumentException e){
+            System.out.println(e.getMessage() + " Please try again");
+        }
+    }
+
+    /**
+     * Validates directory structure and loads the first detected CSV file.
+     *
+     * Operational Assumption:
+     * - Folder contains at least one CSV file.
+     * - CSV format matches CellTowerLoader specification.
+     *
+     * Failure cases are handled gracefully with diagnostic output.
+     */
+    private static void validateDirectory(){
+        try{
+            File folder = new File(folderDirectory);
+
+            // Ensures the directory exists and is accessible
+            if(folder.exists() && folder.isDirectory()){    
+                
+                //Filter for CSV files only
+                File[] cellTowerFile = folder.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".csv"));
+
+                if(cellTowerFile != null && cellTowerFile.length > 0){
+
+                    for(File f: cellTowerFile){
+                        String fileCompletePath = folderDirectory + "\\" + f.getName();
+                        loader = new CellTowerLoader();
+
+                        // Delegates parsing + object creation
+                        loader.loadData(fileCompletePath, towersArr);
+
+                        // Stops after first valid dataset
+                        break;
+                    }
+                }
+
+                else{
+                    System.out.println("The folder does not exist or is not a directory....");
+                }
+            }
+        }
+
+        catch(Exception e){
+            System.out.println("An error occured during directory validation.");
+            e.printStackTrace();    // Detailed stack trace for debugging
+        }
+    }
 }

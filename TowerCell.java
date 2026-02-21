@@ -35,26 +35,25 @@ public class TowerCell{
         this.longitude = longiT;
     }
 
-    public double getLongitude(){
-        return longitude;
-    }
-
     public void setLatitude(double latt){
         this.latitude = latt;
-    }
-
-    public double getLatitude(){
-        return latitude;
     }
 
     public void setEasting(int east){
         this.easting = east;
     }
 
+    public double getEasting(){
+        return easting;
+    }
+
     public void setNorthing(int north){
         this.northing = north;
     }
 
+    public double getNorthing(){
+        return northing;
+    }
     // Returns assigned tower cells color
     public int getColouring(){
         return colour;
@@ -78,6 +77,15 @@ public class TowerCell{
         return neighbours;
     }
 
+    //Prints all the neighrbours of the cell tower
+    public String displayNeighbours(){
+        String neighbourString = "";
+        for(TowerCell neighbourCell: neighbours){
+            neighbourString = neighbourString + neighbourCell.getTowerID() + " " ;
+        }
+
+        return(neighbourString.trim());
+    }
 
     // ----------- Graph Operations ------------------//
 
