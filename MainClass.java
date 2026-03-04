@@ -1,6 +1,11 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.*;
+import java.awt.*;
+
+
 import java.io.File;
 
 public class MainClass{
@@ -19,7 +24,7 @@ public class MainClass{
      */
 
     // Global collection of graph vertices (adjacency handled internally)
-    static ArrayList<TowerCell> towersArr = new ArrayList<>();
+    protected static ArrayList<TowerCell> towersArr = new ArrayList<>();
 
     static String nameOfFolder;         // User-provided dataset folder
     static String folderDirectory;      // Absolute path to dataset directory
@@ -37,7 +42,7 @@ public class MainClass{
 
         // Construct spatial adjacency relationship
         CalculateDistances calcDist = new CalculateDistances();
-        calcDist.computeMinDistances(towersArr);
+        calcDist.computeMinDistances();
 
         // Verification of adjacency list
         for(TowerCell tw: towersArr){
@@ -46,6 +51,9 @@ public class MainClass{
         
         // Apply greedy graph coloring
         GraphColoring coloring = new GraphColoring(towersArr);
+
+        //
+        setUpGUI();
     }
 
 
@@ -117,5 +125,24 @@ public class MainClass{
             System.out.println("An error occured during directory validation.");
             e.printStackTrace();    // Detailed stack trace for debugging
         }
+    }
+
+    private static void setUpGUI(){
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        JFrame frame = new JFrame("Cell Tower🗼");
+        frame.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(800, 600));
+
+        JPanel legendPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
+        legendPanel.setBackground(Color.MAGENTA);
+        
     }
 }

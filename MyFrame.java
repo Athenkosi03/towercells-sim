@@ -15,7 +15,7 @@ class MyFrame extends JFrame implements ActionListener{
         button.addActionListener(this);
 
         this.add(button);
-        this.pack();
+        this.pack(); 
         this.setVisible(true);
     }
 

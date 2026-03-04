@@ -18,22 +18,22 @@ public class CalculateDistances{
     * 
     * Assumes latitude and longitude are represented in a consistent coordinate system.
     */
-   public void computeMinDistances(ArrayList<TowerCell> towersArr){
+   public void computeMinDistances(){
       double changeXs = 0;       //Delta in latitude between two towers
       double changeYs = 0;       //Delta in longitude between two towers
 
       double distance = 0;       //Euclidean distance between two towers
 
       // Outer loop treats each tower as a reference vertex
-     for(int i = 0; i < towersArr.size(); i++){
+     for(int i = 0; i < MainClass.towersArr.size(); i++){
          double minDist = Double.MAX_VALUE;     // Initialize to positive infinity to guarantee first comparison succeeds
 
-         TowerCell towerA = towersArr.get(i);
+         TowerCell towerA = MainClass.towersArr.get(i);
          TowerCell towerClosest = null;         //Closest neighbouring tower
 
          // Inner loop performs exhaustive comparison with all other vertices
-         for(int j = 0; j < towersArr.size(); j++){
-            TowerCell towerB = towersArr.get(j);
+         for(int j = 0; j < MainClass.towersArr.size(); j++){
+            TowerCell towerB = MainClass.towersArr.get(j);
 
             // Skip self-comparison (distance to itself = 0)
             if(towerA.equals(towerB)) continue;
@@ -63,7 +63,7 @@ public class CalculateDistances{
          }
       }
 
-      for(TowerCell cell: towersArr){
+      for(TowerCell cell: MainClass.towersArr){
          removeDuplicates(cell);
       }
       
