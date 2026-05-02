@@ -20,7 +20,7 @@ public class CellTowerGrid extends JPanel{
     double padding = 2;
 
     
-    @Override
+   /*  @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -28,5 +28,5 @@ public class CellTowerGrid extends JPanel{
         //Background square
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.fillRect(0, 0, screenWidth, screenHeight);
-    }
+    }*/
 }

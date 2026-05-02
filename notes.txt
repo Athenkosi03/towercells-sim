@@ -1,0 +1,32 @@
+///------ Notes----- ////
+
+FlowLayout: -  is a simple layout manager in Java used to arrange components in directional flow.
+
+You can customize the alignment and spacing using different constructors of the FlowLayout class
+    Constructors                |            Description
+-----------------------------------------------------------------------------------------------------------------|
+    1. FlowLayout()             | Creates a centered alignment with a default of 5px horizontal and vertical gap.|
+
+    2.FlowLayout(int align)     | Creates a layout with a specified alignment and default 5px                    |
+
+    3.FlowLayout(int align,int  | Creates a layout with the specified alignments, horizontal gap, and vertical   |
+    hgap, int vgap)             | gap in pixels.
+                                |
+-----------------------------------------------------------------------------------------------------------------|
+
+The align argument can use the following constants:
+    * FlowLayout.LEFT: Aligns components to the left edge of the row.
+    * FlowLayout.RIGHT: Aligns components to the right edge of the row.
+    * FlowLayout.CENTER: Centers components in the row(default).
+    * FlowLayout.LEADING: Aligns to the leading edge(left in left-to-right orientations).
+    * FlowLayout.TRAILING: Aligns to the trailing edge(right in left-to-right orientation)
+
+
+BorderLayout:- is a layout mananger that arranges components into five distinct regions: North, Sout, East, West and Center.
+
+*One Component Peer Region: Only one component can be added to each region. To include multiple components in one region, you must add them to a JPanel(which has its own FlowLayout by default) and then ass tha panel to the BorderLayout region.
+
+
+What is the difference between setForeground() and setBackground()?
+    (A)setBackground(Color c)
+        Sets the background color of a component

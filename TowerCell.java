@@ -100,7 +100,7 @@ public class TowerCell{
         return neighbours.contains(towerQuery);
     }
 
-    // Equality is based on spatial coordinates.
+    // Equality is based on spatial coordinates and id.
     // This ensures structural graph uniqueness independent of object reference.
     @Override
     public boolean equals(Object obj){
@@ -113,6 +113,11 @@ public class TowerCell{
         }
 
         TowerCell other = (TowerCell) obj;
+        //checks if the two have the same tower ids
+        if(!(this.towerCellID).equalsIgnoreCase(other.getTowerID())){
+            return false;
+        }
+        
         return (this.easting == other.easting) && (this.northing == other.northing);
     }
 
@@ -121,4 +126,5 @@ public class TowerCell{
     public int hashCode(){
         return Objects.hash(easting, northing);
     }
+
 }

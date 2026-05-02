@@ -53,7 +53,10 @@ public class MainClass{
         GraphColoring coloring = new GraphColoring(towersArr);
 
         //
-        setUpGUI();
+        MyFrame frame = new MyFrame();
+        
+        //lauch the gui
+        //CellTowerGUI.launchGUI(towersArr);
     }
 
 
@@ -70,8 +73,10 @@ public class MainClass{
             System.out.println("Enter the name of the folder to be used for this simulation:");
             nameOfFolder = scan.nextLine().trim();
 
-            if(nameOfFolder.isEmpty()){
+            while(nameOfFolder.isEmpty()){
                 System.out.println("No folder name entered....");
+                System.out.println("Enter the name of the folder to be used for this simulation:");
+                nameOfFolder = scan.nextLine().trim();
             }
 
             folderDirectory = "C:/Users/athen/OneDrive - University of Cape Town/Athenkosi's Personals/Side Projects/CellTowers/" + nameOfFolder;
@@ -98,19 +103,18 @@ public class MainClass{
             // Ensures the directory exists and is accessible
             if(folder.exists() && folder.isDirectory()){    
                 
-                //Filter for CSV files only
-                File[] cellTowerFile = folder.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".csv"));
+            //Filter for CSV files only
+            File[] cellTowerFile = folder.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".csv"));
 
-                if(cellTowerFile != null && cellTowerFile.length > 0){
+            if(cellTowerFile.length > 0){
+                for(File f: cellTowerFile){
+                    String fileCompletePath = folderDirectory + "\\" + f.getName();
+                    loader = new CellTowerLoader();
 
-                    for(File f: cellTowerFile){
-                        String fileCompletePath = folderDirectory + "\\" + f.getName();
-                        loader = new CellTowerLoader();
+                    // Delegates parsing + object creation
+                    loader.loadData(fileCompletePath, towersArr);
 
-                        // Delegates parsing + object creation
-                        loader.loadData(fileCompletePath, towersArr);
-
-                        // Stops after first valid dataset
+                    // Stops after first valid dataset
                         break;
                     }
                 }
@@ -127,7 +131,7 @@ public class MainClass{
         }
     }
 
-    private static void setUpGUI(){
+   /*   private static void setUpGUI(){
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } 
@@ -136,7 +140,9 @@ public class MainClass{
         }
 
         JFrame frame = new JFrame("Cell Tower🗼");
-        frame.setLayout(new BorderLayout());
+       // frame.setTitle("Cell Tower Frequency Allocation System 🗼");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout(10,10));
 
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(800, 600));
@@ -144,5 +150,5 @@ public class MainClass{
         JPanel legendPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         legendPanel.setBackground(Color.MAGENTA);
         
-    }
+    }*/
 }
